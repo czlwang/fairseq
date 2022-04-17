@@ -145,6 +145,7 @@ class AudioPretrainingTask(FairseqTask):
         text_compression_level = getattr(
             TextCompressionLevel, str(self.cfg.text_compression_level)
         )
+        #import pdb; pdb.set_trace()
         if getattr(task_cfg, "binarized_dataset", False):
             self.datasets[split] = BinarizedAudioDataset(
                 data_path,
@@ -194,6 +195,7 @@ class AudioPretrainingTask(FairseqTask):
         return sys.maxsize, sys.maxsize
 
     def build_model(self, model_cfg: FairseqDataclass, from_checkpoint=False):
+        #import pdb; pdb.set_trace()
         model = super().build_model(model_cfg, from_checkpoint)
 
         actualized_cfg = getattr(model, "cfg", None)

@@ -420,6 +420,7 @@ class Wav2Vec2Model(BaseFairseqModel):
     ):
         B, T, C = x.shape
 
+        #import pdb; pdb.set_trace()
         if self.mask_channel_prob > 0 and self.mask_channel_before:
             mask_channel_indices = compute_mask_indices(
                 (B, C),
@@ -542,6 +543,7 @@ class Wav2Vec2Model(BaseFairseqModel):
     def compute_preds(self, x, y, negatives):
 
         neg_is_pos = (y == negatives).all(-1)
+        #import pdb; pdb.set_trace()
         y = y.unsqueeze(0)
         targets = torch.cat([y, negatives], dim=0)
 
@@ -590,6 +592,7 @@ class Wav2Vec2Model(BaseFairseqModel):
         padding_count=None,
     ):
 
+        #import pdb; pdb.set_trace()
         if self.feature_grad_mult > 0:
             features = self.feature_extractor(source)
             if self.feature_grad_mult != 1.0:
@@ -652,6 +655,7 @@ class Wav2Vec2Model(BaseFairseqModel):
             curr_temp = q["temp"]
             features = self.project_inp(features)
 
+        #import pdb; pdb.set_trace()
         if mask:
             x, mask_indices = self.apply_mask(
                 features,
@@ -672,7 +676,9 @@ class Wav2Vec2Model(BaseFairseqModel):
             y = unmasked_features
             mask_indices = None
 
+        #import pdb; pdb.set_trace()
         x, layer_results = self.encoder(x, padding_mask=padding_mask, layer=layer)
+        #import pdb; pdb.set_trace()
 
         if features_only:
             return {
@@ -793,6 +799,7 @@ class Wav2Vec2Model(BaseFairseqModel):
     def get_extra_losses(self, net_output):
         pen = []
 
+        #import pdb; pdb.set_trace()
         if "prob_perplexity" in net_output:
             pen.append(
                 (net_output["num_vars"] - net_output["prob_perplexity"])
@@ -870,6 +877,7 @@ class ConvFeatureExtractionModel(nn.Module):
         in_d = 1
         self.conv_layers = nn.ModuleList()
         for i, cl in enumerate(conv_layers):
+            #import pdb; pdb.set_trace()
             assert len(cl) == 3, "invalid conv definition: " + str(cl)
             (dim, k, stride) = cl
 
@@ -1000,6 +1008,7 @@ class TransformerEncoder(nn.Module):
         self.apply(init_bert_params)
 
     def forward(self, x, padding_mask=None, layer=None):
+        #import pdb; pdb.set_trace()
         x, layer_results = self.extract_features(x, padding_mask, layer)
 
         if self.layer_norm_first and layer is None:

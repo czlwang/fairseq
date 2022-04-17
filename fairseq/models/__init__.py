@@ -58,6 +58,7 @@ def build_model(cfg: FairseqDataclass, task, from_checkpoint=False):
     model = None
     model_type = getattr(cfg, "_name", None) or getattr(cfg, "arch", None)
 
+    #import pdb; pdb.set_trace()
     if not model_type and len(cfg) == 1:
         # this is hit if config object is nested in directory that is named after model type
 
@@ -80,8 +81,10 @@ def build_model(cfg: FairseqDataclass, task, from_checkpoint=False):
         # case 2: config-driven models
         model = MODEL_REGISTRY[model_type]
 
+    #import pdb; pdb.set_trace()
     if model_type in MODEL_DATACLASS_REGISTRY:
         # set defaults from dataclass. note that arch name and model name can be the same
+        #import pdb; pdb.set_trace()
         dc = MODEL_DATACLASS_REGISTRY[model_type]
 
         if isinstance(cfg, argparse.Namespace):
@@ -97,12 +100,14 @@ def build_model(cfg: FairseqDataclass, task, from_checkpoint=False):
                 # it will modify the cfg object and default parameters according to the arch
                 ARCH_CONFIG_REGISTRY[model_type](cfg)
 
+    #import pdb; pdb.set_trace()
     assert model is not None, (
         f"Could not infer model type from {cfg}. "
         "Available models: {}".format(MODEL_DATACLASS_REGISTRY.keys())
         + f" Requested model type: {model_type}"
     )
 
+    #import pdb; pdb.set_trace()
     return model.build_model(cfg, task)
 
 

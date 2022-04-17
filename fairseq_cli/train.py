@@ -84,15 +84,18 @@ def main(cfg: FairseqConfig) -> None:
             return
 
     # Setup task, e.g., translation, language modeling, etc.
+    #import pdb; pdb.set_trace()
     task = tasks.setup_task(cfg.task)
 
     assert cfg.criterion, "Please specify criterion to train a model"
 
     # Build model and criterion
+    #import pdb; pdb.set_trace()
     if cfg.distributed_training.ddp_backend == "fully_sharded":
         with fsdp_enable_wrap(cfg.distributed_training):
             model = fsdp_wrap(task.build_model(cfg.model))
     else:
+        #import pdb; pdb.set_trace()
         model = task.build_model(cfg.model)
     criterion = task.build_criterion(cfg.criterion)
     logger.info(model)

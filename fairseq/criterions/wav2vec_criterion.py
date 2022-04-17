@@ -50,6 +50,7 @@ class Wav2vecCriterion(FairseqCriterion):
         2) the sample size, which is used as the denominator for the gradient
         3) logging outputs to display while training
         """
+        #import pdb; pdb.set_trace()
         net_output = model(**sample["net_input"])
         logits = model.get_logits(net_output).float()
         target = model.get_targets(sample, net_output)
@@ -66,6 +67,7 @@ class Wav2vecCriterion(FairseqCriterion):
 
         reduction = "none" if ((not reduce) or self.xla) else "sum"
         if self.infonce:
+            #import pdb; pdb.set_trace()
             loss = F.cross_entropy(logits, target, reduction=reduction)
         else:
             loss = F.binary_cross_entropy_with_logits(

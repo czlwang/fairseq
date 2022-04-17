@@ -487,6 +487,7 @@ def merge_with_parent(dc: FairseqDataclass, cfg: DictConfig, remove_missing=Fals
                 if k not in target_keys:
                     del cfg[k]
 
+    #import pdb; pdb.set_trace()
     merged_cfg = OmegaConf.merge(dc, cfg)
     merged_cfg.__dict__["_parent"] = cfg.__dict__["_parent"]
     OmegaConf.set_struct(merged_cfg, True)

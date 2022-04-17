@@ -45,6 +45,7 @@ class Trainer(object):
 
     def __init__(self, cfg: FairseqConfig, task, model, criterion, quantizer=None):
 
+        #import pdb; pdb.set_trace()
         if isinstance(cfg, Namespace):
             logger.warning(
                 "argparse.Namespace configuration is deprecated! Automatically converting to OmegaConf"
@@ -96,6 +97,7 @@ class Trainer(object):
         # copy model and criterion to current device/dtype
         self._criterion = criterion
         self._model = model
+        #import pdb; pdb.set_trace()
         if not self.is_fsdp:
             if cfg.common.fp16:
                 assert not cfg.common.amp, "Cannot use fp16 and AMP together"
@@ -691,6 +693,7 @@ class Trainer(object):
                 data_selector=data_selector,
                 tpu=self.tpu,
             )
+        #import pdb; pdb.set_trace()
         batch_iterator = self.task.get_batch_iterator(
             dataset=self.task.dataset(self.cfg.dataset.train_subset),
             max_tokens=self.cfg.dataset.max_tokens,

@@ -332,6 +332,7 @@ class FairseqTask(object):
         """
         from fairseq import models, quantization_utils
 
+        #import pdb; pdb.set_trace()
         model = models.build_model(cfg, self, from_checkpoint)
         model = quantization_utils.quantize_model_scalar(model, cfg)
         return model
@@ -505,10 +506,13 @@ class FairseqTask(object):
                   gradient
                 - logging outputs to display while training
         """
+        #import pdb; pdb.set_trace()
         model.train()
         model.set_num_updates(update_num)
+        #import pdb; pdb.set_trace()
         with torch.autograd.profiler.record_function("forward"):
             with torch.cuda.amp.autocast(enabled=(isinstance(optimizer, AMPOptimizer))):
+                #import pdb; pdb.set_trace()
                 loss, sample_size, logging_output = criterion(model, sample)
         if ignore_grad:
             loss *= 0

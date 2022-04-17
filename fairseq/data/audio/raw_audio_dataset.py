@@ -63,6 +63,7 @@ class RawAudioDataset(FairseqDataset):
         return len(self.sizes)
 
     def postprocess(self, feats, curr_sample_rate):
+        #import pdb; pdb.set_trace()
         if feats.dim() == 2:
             feats = feats.mean(-1)
 

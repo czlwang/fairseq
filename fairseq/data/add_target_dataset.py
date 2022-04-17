@@ -49,6 +49,7 @@ class AddTargetDataset(BaseWrapperDataset):
 
     def collater(self, samples):
         collated = self.dataset.collater(samples)
+        import pdb; pdb.set_trace()
         if len(collated) == 0:
             return collated
         indices = set(collated["id"].tolist())
@@ -56,7 +57,7 @@ class AddTargetDataset(BaseWrapperDataset):
 
         if self.add_to_input:
             eos = torch.LongTensor([self.eos])
-            prev_output_tokens = [torch.cat([eos, t], axis=-1) for t in target]
+            prev_output_tokens = [torch.cat([eos, t], axjs=-1) for t in target]
             target = [torch.cat([t, eos], axis=-1) for t in target]
             collated["net_input"]["prev_output_tokens"] = prev_output_tokens
 

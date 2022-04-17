@@ -132,6 +132,7 @@ class CtcCriterion(FairseqCriterion):
         else:
             target_lengths = pad_mask.sum(-1)
 
+        #import pdb; pdb.set_trace()
         with torch.backends.cudnn.flags(enabled=False):
             loss = F.ctc_loss(
                 lprobs,
